@@ -1,0 +1,64 @@
+// En esta práctica vamos controlar un toldo mediante una célula 
+// fotovóltaica para poder abrir este. Esta célula cuando se
+// activa hará que el contador vaya resatadose hasta llegar a 0
+// y así esta pueda parar.
+
+
+
+
+// Definición de los pins.
+
+#define rele 12
+#define LDR  A0
+
+int umbral = 900;
+int entrada = 0;
+int releON = false;
+int contador = 100;
+bool fincarrera = false;
+
+
+
+void setup() {
+  pinMode(rele, OUTPUT);
+  pinMode(LDR, INPUT);
+  Serial.begin(9600);
+}
+
+
+// lectura de las entradas:
+
+void loop() {
+  entrada = analogRead(LDR);
+  Serial.print("Entrada LDR: ");
+  Serial.println(entrada);
+
+  if(entrada > umbral) { // Si la entrada es meyor que el umbral.
+  releON = true;
+  
+  }
+ 
+  else {  // Si la entrada es menor que el umbral.
+  releON = false;
+ }
+
+  if(contador > 0 && entrada > umbral) {
+    Serial.println("Contador "); 
+    Serial.println(contador);
+    contador --;
+   // delay(70);
+    
+ }
+   else  {
+   releON = false;
+   fincarrera = true;
+   
+ }
+  if (entrada < umbral) { 
+     contador = 100;
+    // delay(70);
+  }
+ 
+ digitalWrite(rele,  releON); 
+}
+
